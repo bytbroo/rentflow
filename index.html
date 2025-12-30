@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Rental Invoice Generator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Rental Invoice Generator</h1>
+
+        <div class="container">
+            <!-- Form -->
+            <form id="invoiceForm">
+                <label>Tenant Name</label>
+                <input type="text" id="tenantName" required />
+
+                <label>Flat No.</label>
+                <input type="number" id="flatNo" required />
+
+                <label>Rent Amount (₹)</label>
+                <select id="rentSelect">
+                    <option value="4500">4500</option>
+                    <option value="5000">5000</option>
+                    <option value="5500">5500</option>
+                    <option value="6000">6000</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input
+                    type="number"
+                    id="rentCustom"
+                    placeholder="Enter custom rent"
+                    style="display: none; margin-top: 5px"
+                />
+
+                <label>Previous Month Meter Reading</label>
+                <input type="number" id="prevMeter" required />
+
+                <label>This Month Meter Reading</label>
+                <input type="number" id="currMeter" required />
+
+                <label>Previous Dues (₹)</label>
+                <input type="number" id="dues" value="0" />
+
+                <label>From Date</label>
+                <input type="date" id="fromDate" required />
+
+                <label>To Date</label>
+                <input type="date" id="toDate" required />
+
+                <label>UPI ID</label>
+                <input
+                    type="text"
+                    id="upiId"
+                    placeholder="8808817871-2@ybl"
+                    required
+                />
+
+                <label>Note for Tenant (Optional)</label>
+                <input type="text" id="tenantNote" />
+
+                <button type="button" onclick="generateInvoice()">
+                    Generate Invoice
+                </button>
+            </form>
+
+            <!-- Invoice -->
+            <div class="invoice" id="invoice">
+                <div class="title">
+                    <div class="invoice-date" id="invoiceDate"></div>
+                    <div class="invoice-title">RENT <br />INVOICE</div>
+                </div>
+                <!-- <div class="section-title">Tenant Details</div> -->
+                <p>
+                    <strong>Name:</strong> <span id="rTenant"></span><br />
+                    <strong>Flat No:</strong> <span id="rFlat"></span><br />
+                    <strong>Period:</strong> <span id="rPeriod"></span>
+                </p>
+
+                <!-- <div class="section-title">Charges</div> -->
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Amount (₹)</th>
+                    </tr>
+                    <tr>
+                        <td>Flat Rent</td>
+                        <td id="rRent"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Electricity Details <br />
+                            <br />Prev Month Reading:
+                            <span id="rPrevMeter"></span> <br />This Month
+                            Reading: <span id="rCurrMeter"></span> <br />Units
+                            Used: <span id="rUnits"></span> <br />Rate per Unit:
+                            ₹8
+                        </td>
+                        <td id="rElec"></td>
+                    </tr>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td id="rSubtotal"></td>
+                    </tr>
+                </table>
+
+                <table class="totals">
+                    <tr>
+                        <td>Previous Dues</td>
+                        <td id="rDues"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong id="rTotal"></strong></td>
+                    </tr>
+                </table>
+
+                <div id="noteSection">
+                    <div class="section-title">Note</div>
+                    <p id="rNote"></p>
+                </div>
+
+                <div class="qr">
+                    <h3>Scan & Pay</h3>
+                    <canvas id="qrCode"></canvas>
+                </div>
+
+                <div class="footer">
+                    This invoice is generated for information purposes only. Do
+                    not use in legal matters.
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button onclick="downloadImage()">Download Recipt</button>
+        </div>
+
+        <script src="./script.js"></script>
+    </body>
+</html>
